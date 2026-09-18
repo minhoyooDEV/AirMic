@@ -61,7 +61,7 @@ To create a local Mac installer, run `bash scripts/package.sh`. The DMG appears 
 
 You can also toggle mute in the window or menu. Closing the window leaves the app in the menu bar. To stop it, choose **Quit and restore microphone**, which attempts to restore the original mute state of microphones changed by AirMic.
 
-The compact, approximately 336 × 390-point SwiftUI window uses a softly frosted, pale-blue surface with light/dark appearance, a clear microphone state, and a prominent mute button. Its largely opaque background keeps text readable over a busy desktop. Help and quit are available directly in the window. While the window is open, AirMic is available in the Dock and app switcher. Closing it returns to menu-bar-only operation; opening the app again shows the window. Command-Q uses the same restoration-aware quit path.
+The compact, approximately 336 × 390-point SwiftUI window uses a translucent, frosted pale-blue surface with light/dark appearance, a clear microphone state, and a prominent mute button. Native desktop blur, a light tint, and fine highlighted edges create depth; high-contrast controls keep the main action readable. Help and quit are available directly in the window. While the window is open, AirMic is available in the Dock and app switcher. Closing it returns to menu-bar-only operation; opening the app again shows the window. Command-Q uses the same restoration-aware quit path.
 
 ### Language
 

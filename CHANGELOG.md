@@ -8,7 +8,7 @@ User-visible changes are recorded here. Version tags and releases will be create
 
 ### Added
 
-- SwiftUI frosted window with a mostly opaque, airy background, adaptive light/dark colors, accessible native buttons, and a matching app icon.
+- SwiftUI frosted window with a translucent, airy background with native desktop blur and fine glass edge highlights, adaptive light/dark colors, accessible native buttons, and a matching app icon.
 - Deterministic fake-device checks for mute snapshots, rollback, partial restoration, disconnected retry, and unsupported input.
 
 - Compact Mac window with a microphone icon, prominent mute button, direct help/quit controls, and Dock/app-switcher access while visible.

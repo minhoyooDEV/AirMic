@@ -23,7 +23,7 @@ final class StatusModel: ObservableObject {
 private struct NativeFrost: NSViewRepresentable {
     func makeNSView(context: Context) -> NSVisualEffectView {
         let view = NSVisualEffectView()
-        view.material = .underWindowBackground
+        view.material = .hudWindow
         view.blendingMode = .behindWindow
         view.state = .active
         return view
@@ -49,13 +49,29 @@ private struct AirBackground: View {
 
     var body: some View {
         ZStack {
-            Frost()
-            Color(red: dark ? 0.12 : 0.97, green: dark ? 0.14 : 0.98, blue: dark ? 0.16 : 0.99)
-                .opacity(reduceTransparency ? 1 : 0.96)
+            // A behind-window material lets the actual desktop show through softly.
+            NativeFrost()
+            Color(red: dark ? 0.12 : 0.96, green: dark ? 0.14 : 0.98, blue: dark ? 0.16 : 1)
+                .opacity(reduceTransparency ? 1 : (dark ? 0.28 : 0.24))
             // Broad, radial washes suggest air without a directional seam.
-            RadialGradient(gradient: Gradient(colors: [Color(red: 0.57, green: 0.79, blue: 0.9).opacity(dark ? 0.13 : 0.2), .clear]), center: .topLeading, startRadius: 0, endRadius: 380)
-            RadialGradient(gradient: Gradient(colors: [Color(red: 0.68, green: 0.84, blue: 0.84).opacity(dark ? 0.07 : 0.13), .clear]), center: .bottomTrailing, startRadius: 0, endRadius: 260)
+            RadialGradient(gradient: Gradient(colors: [Color(red: 0.57, green: 0.79, blue: 0.9).opacity(dark ? 0.16 : 0.22), .clear]), center: .topLeading, startRadius: 0, endRadius: 380)
+            RadialGradient(gradient: Gradient(colors: [Color(red: 0.68, green: 0.84, blue: 0.84).opacity(dark ? 0.08 : 0.12), .clear]), center: .bottomTrailing, startRadius: 0, endRadius: 260)
+            LinearGradient(gradient: Gradient(colors: [Color.white.opacity(dark ? 0.025 : 0.2), .clear]), startPoint: .top, endPoint: .bottom)
         }
+    }
+}
+
+private struct GlassEdge: View {
+    @Environment(\.colorScheme) private var scheme
+    var radius: CGFloat
+    var body: some View {
+        RoundedRectangle(cornerRadius: radius, style: .continuous)
+            .strokeBorder(LinearGradient(gradient: Gradient(stops: [
+                .init(color: .white.opacity(scheme == .dark ? 0.42 : 0.9), location: 0),
+                .init(color: .white.opacity(0.08), location: 0.5),
+                .init(color: .white.opacity(scheme == .dark ? 0.15 : 0.5), location: 1)
+            ]), startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 0.8)
+            .allowsHitTesting(false)
     }
 }
 
@@ -71,8 +87,9 @@ private struct AirButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity)
             .frame(height: prominent ? 40 : 30)
             .foregroundColor(prominent ? (dark ? .black : .white) : .primary)
-            .background(Capsule().fill(prominent ? (dark ? Color(white: 0.94) : Color(white: 0.13)) : Color.primary.opacity(dark ? 0.06 : 0.035)))
-            .overlay(Capsule().stroke(Color.primary.opacity(prominent ? 0 : 0.06), lineWidth: 0.75))
+            .background(Capsule().fill(prominent ? (dark ? Color.white.opacity(0.9) : Color(white: 0.12).opacity(0.9)) : Color.white.opacity(dark ? 0.06 : 0.2)))
+            .overlay(GlassEdge(radius: 24).opacity(prominent ? 0.2 : 1))
+            .shadow(color: .black.opacity(prominent ? 0.08 : 0.025), radius: 6, x: 0, y: 3)
             .opacity(enabled ? (configuration.isPressed ? 0.7 : 1) : 0.35)
             .contentShape(Capsule())
     }
@@ -90,8 +107,9 @@ private struct MicrophoneMark: View {
             .font(.system(size: 27, weight: .regular))
             .foregroundColor(tint)
             .frame(width: 60, height: 60)
-            .background(RoundedRectangle(cornerRadius: 19, style: .continuous).fill(Color.white.opacity(scheme == .dark ? 0.07 : 0.68)))
-            .overlay(RoundedRectangle(cornerRadius: 19, style: .continuous).stroke(Color.white.opacity(scheme == .dark ? 0.15 : 0.9), lineWidth: 1))
+            .background(Frost().clipShape(RoundedRectangle(cornerRadius: 19, style: .continuous)))
+            .background(RoundedRectangle(cornerRadius: 19, style: .continuous).fill(Color.white.opacity(scheme == .dark ? 0.04 : 0.12)))
+            .overlay(GlassEdge(radius: 19))
             .shadow(color: tint.opacity(0.08), radius: 16, x: 0, y: 8)
             .accessibilityHidden(true)
     }
@@ -120,7 +138,8 @@ struct StatusView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             .padding(.horizontal, 12).padding(.vertical, 6)
-            .background(Capsule().fill(Color.primary.opacity(0.035)))
+            .background(Capsule().fill(Color.white.opacity(0.1)))
+            .overlay(GlassEdge(radius: 20).opacity(0.6))
             .padding(.bottom, 12)
             Button(model.state.action) { model.onToggle?() }
                 .buttonStyle(AirButtonStyle(prominent: true))
@@ -144,6 +163,8 @@ struct StatusView: View {
         .frame(minWidth: 336, maxWidth: .infinity, minHeight: 362, maxHeight: .infinity)
         .ignoresSafeArea()
         .background(AirBackground().ignoresSafeArea())
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay(GlassEdge(radius: 18))
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.16))
     }
 }
