@@ -7,7 +7,7 @@ if [[ "$(uname -s)" != Darwin ]]; then
   exit 1
 fi
 
-bash -n build.sh scripts/check.sh
+bash -n build.sh scripts/check.sh scripts/check-localizations.sh
 bash build.sh
 
 app=build/AirMic.app
@@ -41,6 +41,8 @@ expect_usage_error() {
 expect_usage_error --invalid
 expect_usage_error --help extra
 expect_usage_error --self-test extra
+
+bash scripts/check-localizations.sh
 
 echo "PASS: build, bundle metadata, signature, help/version, invalid arguments ($(uname -m))."
 echo 'Hardware tests were not run. See docs/TESTING.md.'

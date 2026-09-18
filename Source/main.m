@@ -3,6 +3,7 @@
 #import <CoreAudio/CoreAudio.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <dlfcn.h>
+#import "Localization.h"
 
 // Public macOS 14 API, declared here so the existing Command Line Tools SDK can build it.
 @protocol AudioApplicationAPI
@@ -58,23 +59,23 @@ static OSStatus discardInput(void *context, AudioUnitRenderActionFlags *flags,
 - (BOOL)apply:(BOOL)muted { @synchronized(self) {
     AudioDeviceID d=inputDevice(); BOOL prior=NO;
     NSString *uid=deviceString(d,kAudioDevicePropertyDeviceUID);
-    if(!readMute(d,&prior) || uid.length==0) { self.lastError=@"이 마이크는 음소거 제어를 지원하지 않습니다."; return NO; }
+    if(!readMute(d,&prior) || uid.length==0) { self.lastError=L(@"error.unsupported_input"); return NO; }
     if(!self.original[uid]) {
         self.original[uid]=@(prior);
         [[NSUserDefaults standardUserDefaults] setObject:self.original forKey:@"OriginalMuteStates"];
     }
     if(!writeMute(d,muted)) {
         writeMute(d,prior);
-        self.lastError=@"마이크 상태 변경을 확인하지 못했습니다."; return NO;
+        self.lastError=L(@"error.mute_verification"); return NO;
     }
     self.lastError=@""; return YES;
 } }
 - (NSArray *)restore { @synchronized(self) {
     NSMutableArray *failed=[NSMutableArray array];
     AudioObjectPropertyAddress p={kAudioHardwarePropertyDevices,kAudioObjectPropertyScopeGlobal,0}; UInt32 n=0;
-    if(AudioObjectGetPropertyDataSize(kAudioObjectSystemObject,&p,0,NULL,&n)!=noErr) return @[@"장치 목록 조회 실패"];
+    if(AudioObjectGetPropertyDataSize(kAudioObjectSystemObject,&p,0,NULL,&n)!=noErr) return @[L(@"error.device_list")];
     NSMutableData *data=[NSMutableData dataWithLength:n];
-    if(AudioObjectGetPropertyData(kAudioObjectSystemObject,&p,0,NULL,&n,data.mutableBytes)!=noErr) return @[@"장치 목록 조회 실패"];
+    if(AudioObjectGetPropertyData(kAudioObjectSystemObject,&p,0,NULL,&n,data.mutableBytes)!=noErr) return @[L(@"error.device_list")];
     AudioDeviceID *devices=data.mutableBytes;
     for(UInt32 i=0;i<n/sizeof(AudioDeviceID);i++) {
         NSString *uid=deviceString(devices[i],kAudioDevicePropertyDeviceUID); NSNumber *prior=self.original[uid];
@@ -100,10 +101,11 @@ static OSStatus discardInput(void *context, AudioUnitRenderActionFlags *flags,
 @property NSWindow *window;
 @property NSTextField *windowState,*windowDevice,*windowListening;
 @property NSButton *windowToggle,*windowListen;
+- (void)prepareWindow;
 @end
 @implementation App
 - (void)applicationDidFinishLaunching:(NSNotification *)note {
-    self.control=[Controller new]; self.message=@"버튼 감지를 시작하세요.";
+    self.control=[Controller new]; self.message=L(@"status.ready");
     dlopen("/System/Library/Frameworks/AVFAudio.framework/AVFAudio",RTLD_LAZY);
     Class cls=NSClassFromString(@"AVAudioApplication");
     self.audioApp=[(Class<AudioApplicationAPI>)cls sharedInstance];
@@ -117,12 +119,12 @@ static OSStatus discardInput(void *context, AudioUnitRenderActionFlags *flags,
     self.stateLine=[menu addItemWithTitle:@"" action:nil keyEquivalent:@""];
     self.eventLine=[menu addItemWithTitle:@"" action:nil keyEquivalent:@""];
     [menu addItem:[NSMenuItem separatorItem]];
-    self.toggleLine=[menu addItemWithTitle:@"마이크 켜기 / 끄기" action:@selector(toggle:) keyEquivalent:@""];
-    self.listenLine=[menu addItemWithTitle:@"AirPods 버튼 감지 시작" action:@selector(changeListening:) keyEquivalent:@""];
-    [menu addItemWithTitle:@"사용 방법" action:@selector(help:) keyEquivalent:@""];
-    [menu addItemWithTitle:@"상태 창 열기" action:@selector(showWindow:) keyEquivalent:@""];
+    self.toggleLine=[menu addItemWithTitle:L(@"action.toggle") action:@selector(toggle:) keyEquivalent:@""];
+    self.listenLine=[menu addItemWithTitle:L(@"action.start_listening") action:@selector(changeListening:) keyEquivalent:@""];
+    [menu addItemWithTitle:L(@"action.help") action:@selector(help:) keyEquivalent:@""];
+    [menu addItemWithTitle:L(@"action.show_window") action:@selector(showWindow:) keyEquivalent:@""];
     [menu addItem:[NSMenuItem separatorItem]];
-    [menu addItemWithTitle:@"종료 (원래 마이크 상태 복원)" action:@selector(quit:) keyEquivalent:@"q"];
+    [menu addItemWithTitle:L(@"action.quit_restore") action:@selector(quit:) keyEquivalent:@"q"];
     for(NSMenuItem *item in menu.itemArray) if(item.action) item.target=self;
     self.status.menu=menu;
     self.watchedDevice=inputDevice();
@@ -138,38 +140,64 @@ static OSStatus discardInput(void *context, AudioUnitRenderActionFlags *flags,
         self.watchedDevice=d;
         if(self.listening) { [self stop]; [self startEngine]; }
     }
-    self.deviceLine.title=[@"입력: " stringByAppendingString:deviceString(d,kAudioObjectPropertyName)];
-    self.stateLine.title=supported?(muted?@"마이크 꺼짐":@"마이크 켜짐"):@"음소거 제어 불가";
+    self.deviceLine.title=[NSString stringWithFormat:L(@"device.input"),deviceString(d,kAudioObjectPropertyName)];
+    self.stateLine.title=supported?(muted?L(@"state.muted"):L(@"state.unmuted")):L(@"state.unsupported");
     self.status.button.image=[NSImage imageWithSystemSymbolName:supported?(muted?@"mic.slash.fill":@"mic.fill"):@"exclamationmark.triangle" accessibilityDescription:self.stateLine.title];
     self.status.button.toolTip=[NSString stringWithFormat:@"AirMic · %@\n%@",self.stateLine.title,self.message];
-    self.eventLine.title=self.listening?[NSString stringWithFormat:@"버튼 감지 중 · 수신 %lu회",(unsigned long)self.control.gestures]:self.message;
-    self.listenLine.title=self.listening?@"AirPods 버튼 감지 중지":@"AirPods 버튼 감지 시작";
+    self.eventLine.title=self.listening?[NSString stringWithFormat:L(@"status.events"),(unsigned long)self.control.gestures]:self.message;
+    self.listenLine.title=self.listening?L(@"action.stop_listening"):L(@"action.start_listening");
     self.toggleLine.enabled=supported;
-    self.toggleLine.title=muted?@"마이크 켜기":@"마이크 끄기";
+    self.toggleLine.title=muted?L(@"action.unmute"):L(@"action.mute");
     self.windowState.stringValue=self.stateLine.title;
     self.windowDevice.stringValue=self.deviceLine.title;
-    self.windowListening.stringValue=self.control.lastError.length?self.control.lastError:(self.listening?@"AirPods 버튼 감지 중":self.message);
+    self.windowListening.stringValue=self.control.lastError.length?self.control.lastError:(self.listening?L(@"status.listening"):self.message);
     self.windowToggle.title=self.toggleLine.title; self.windowToggle.enabled=supported;
     self.windowListen.title=self.listenLine.title;
 }
-- (NSTextField *)label:(NSString *)text y:(CGFloat)y size:(CGFloat)size {
-    NSTextField *label=[NSTextField labelWithString:text];
-    label.frame=NSMakeRect(24,y,372,30); label.font=[NSFont systemFontOfSize:size];
-    label.alignment=NSTextAlignmentCenter; [self.window.contentView addSubview:label]; return label;
+- (NSTextField *)label:(NSString *)text size:(CGFloat)size {
+    NSTextField *label=[NSTextField wrappingLabelWithString:text];
+    label.font=[NSFont systemFontOfSize:size];
+    label.alignment=NSTextAlignmentCenter;
+    label.maximumNumberOfLines=0;
+    return label;
+}
+- (void)prepareWindow {
+    if(!self.window) {
+        self.window=[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,480,330) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO];
+        self.window.contentMinSize=NSMakeSize(480,330);
+        self.window.title=@"AirMic"; self.window.releasedWhenClosed=NO; [self.window center];
+        self.windowState=[self label:L(@"state.checking") size:24];
+        self.windowDevice=[self label:@"" size:13];
+        self.windowListening=[self label:@"" size:12];
+        self.windowToggle=[NSButton buttonWithTitle:L(@"action.toggle") target:self action:@selector(toggle:)];
+        self.windowListen=[NSButton buttonWithTitle:L(@"action.start_listening") target:self action:@selector(changeListening:)];
+        NSTextField *privacy=[self label:L(@"privacy.summary") size:11];
+        NSArray<NSView *> *views=@[self.windowState,self.windowDevice,self.windowListening,self.windowToggle,self.windowListen,privacy];
+        NSStackView *stack=[NSStackView stackViewWithViews:views];
+        stack.orientation=NSUserInterfaceLayoutOrientationVertical;
+        stack.alignment=NSLayoutAttributeCenterX;
+        stack.spacing=14;
+        stack.translatesAutoresizingMaskIntoConstraints=NO;
+        [self.window.contentView addSubview:stack];
+        [NSLayoutConstraint activateConstraints:@[
+            [stack.leadingAnchor constraintEqualToAnchor:self.window.contentView.leadingAnchor constant:24],
+            [stack.trailingAnchor constraintEqualToAnchor:self.window.contentView.trailingAnchor constant:-24],
+            [stack.topAnchor constraintEqualToAnchor:self.window.contentView.topAnchor constant:24],
+            [stack.bottomAnchor constraintLessThanOrEqualToAnchor:self.window.contentView.bottomAnchor constant:-24]
+        ]];
+        for(NSView *view in views) {
+            view.translatesAutoresizingMaskIntoConstraints=NO;
+            if([view isKindOfClass:[NSTextField class]]) {
+                [view.widthAnchor constraintEqualToAnchor:stack.widthAnchor].active=YES;
+            } else {
+                [view.widthAnchor constraintGreaterThanOrEqualToConstant:240].active=YES;
+                [view.widthAnchor constraintLessThanOrEqualToAnchor:stack.widthAnchor].active=YES;
+            }
+        }
+    }
 }
 - (void)showWindow:(id)sender {
-    if(!self.window) {
-        self.window=[[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,420,265) styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:NO];
-        self.window.title=@"AirMic"; self.window.releasedWhenClosed=NO; [self.window center];
-        self.windowState=[self label:@"마이크 상태 확인 중" y:205 size:24];
-        self.windowDevice=[self label:@"" y:165 size:13];
-        self.windowListening=[self label:@"" y:135 size:12];
-        self.windowToggle=[NSButton buttonWithTitle:@"마이크 켜기 / 끄기" target:self action:@selector(toggle:)];
-        self.windowToggle.frame=NSMakeRect(110,90,200,32); [self.window.contentView addSubview:self.windowToggle];
-        self.windowListen=[NSButton buttonWithTitle:@"AirPods 버튼 감지 시작" target:self action:@selector(changeListening:)];
-        self.windowListen.frame=NSMakeRect(85,50,250,32); [self.window.contentView addSubview:self.windowListen];
-        [self label:@"소리는 저장하거나 전송하지 않습니다." y:12 size:11];
-    }
+    [self prepareWindow];
     [self.window makeKeyAndOrderFront:nil]; [NSApp activateIgnoringOtherApps:YES];
 }
 - (void)toggle:(id)sender {
@@ -182,7 +210,7 @@ static OSStatus discardInput(void *context, AudioUnitRenderActionFlags *flags,
         [self.audioApp setInputMuted:!muted error:NULL];
         if(self.listening) [self registerHandler];
     }
-    self.message=ok?@"마이크 상태를 변경했습니다.":self.control.lastError;
+    self.message=ok?L(@"status.changed"):self.control.lastError;
     if(!ok) NSBeep(); [self refresh];
 }
 - (BOOL)registerHandler {
@@ -192,13 +220,13 @@ static OSStatus discardInput(void *context, AudioUnitRenderActionFlags *flags,
         BOOL result=[control apply:muted];
         return result;
     } error:&error];
-    if(!ok) self.message=error.localizedDescription ?: @"버튼 감지를 등록하지 못했습니다.";
+    if(!ok) self.message=error.localizedDescription ?: L(@"error.handler");
     return ok;
 }
 - (void)startEngine {
-    if(!self.audioApp) { self.message=@"macOS 14 이상이 필요합니다."; [self refresh]; return; }
+    if(!self.audioApp) { self.message=L(@"error.os_version"); [self refresh]; return; }
     BOOL muted=NO;
-    if(!readMute(inputDevice(),&muted)) { self.message=@"현재 마이크는 음소거 제어를 지원하지 않습니다."; return; }
+    if(!readMute(inputDevice(),&muted)) { self.message=L(@"error.current_input"); return; }
     [self.audioApp setInputMuted:muted error:NULL];
     if(![self registerHandler]) return;
     AudioComponentDescription desc={kAudioUnitType_Output,kAudioUnitSubType_HALOutput,kAudioUnitManufacturer_Apple,0,0};
@@ -212,23 +240,23 @@ static OSStatus discardInput(void *context, AudioUnitRenderActionFlags *flags,
     if(result==noErr) result=AudioUnitSetProperty(unit,kAudioOutputUnitProperty_SetInputCallback,kAudioUnitScope_Global,0,&callback,sizeof(callback));
     if(result==noErr) result=AudioUnitInitialize(unit);
     if(result==noErr) result=AudioOutputUnitStart(unit);
-    if(result==noErr) { self.audioUnit=unit; self.listening=YES; self.message=@"버튼 감지 중"; }
+    if(result==noErr) { self.audioUnit=unit; self.listening=YES; self.message=L(@"status.detecting"); }
     else {
         if(unit) { AudioOutputUnitStop(unit); AudioComponentInstanceDispose(unit); }
         [self.audioApp setInputMuteStateChangeHandler:nil error:NULL];
-        self.message=[NSString stringWithFormat:@"마이크 입력 시작 실패 (%d)",(int)result];
+        self.message=[NSString stringWithFormat:L(@"error.input_start"),(int)result];
     }
     [self refresh];
 }
 - (void)changeListening:(id)sender {
-    if(self.listening) { [self stop]; self.message=@"버튼 감지 중지됨"; [self refresh]; return; }
+    if(self.listening) { [self stop]; self.message=L(@"status.stopped"); [self refresh]; return; }
     if(self.requesting) return;
     self.requesting=YES;
     [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
         dispatch_async(dispatch_get_main_queue(),^{
             self.requesting=NO;
             if(granted) [self startEngine];
-            else { self.message=@"시스템 설정에서 AirMic 마이크 접근을 허용해 주세요."; [self refresh]; }
+            else { self.message=L(@"error.permission"); [self refresh]; }
         });
     }];
 }
@@ -245,16 +273,16 @@ static OSStatus discardInput(void *context, AudioUnitRenderActionFlags *flags,
 }
 - (void)help:(id)sender {
     NSAlert *a=[NSAlert new]; a.messageText=@"AirMic";
-    a.informativeText=@"메뉴 막대의 마이크 아이콘에서 ‘AirPods 버튼 감지 시작’을 선택하세요. 마이크 접근을 허용한 뒤 AirPods 줄기를 한 번 누르면 현재 기본 입력 마이크가 음소거/해제됩니다.\n\n이 마이크를 쓰는 다른 앱에도 적용됩니다. 다른 입력 장치는 제어하지 않습니다. 버튼 감지 중에는 마이크 표시가 켜질 수 있고 Bluetooth 음질·배터리에 영향을 줄 수 있습니다. 오디오는 저장하거나 전송하지 않습니다.\n\n메뉴에서도 마이크를 켜고 끌 수 있습니다. 정상 종료하면 변경 전 마이크 상태로 복원합니다. 다른 통화 앱이 AirPods 버튼을 처리하면 충돌할 수 있습니다.";
-    [a addButtonWithTitle:@"확인"]; [NSApp activateIgnoringOtherApps:YES]; [a runModal];
+    a.informativeText=L(@"help.body");
+    [a addButtonWithTitle:L(@"action.ok")]; [NSApp activateIgnoringOtherApps:YES]; [a runModal];
 }
 - (void)quit:(id)sender { [NSApp terminate:nil]; }
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
     [self stop]; NSArray *failed=[self.control restore];
     if(failed.count) {
-        NSAlert *a=[NSAlert new]; a.messageText=@"마이크 상태 복원 실패";
+        NSAlert *a=[NSAlert new]; a.messageText=L(@"error.restore_title");
         a.informativeText=[failed componentsJoinedByString:@", "];
-        [a addButtonWithTitle:@"종료 취소"]; [a addButtonWithTitle:@"그대로 종료"];
+        [a addButtonWithTitle:L(@"action.cancel_quit")]; [a addButtonWithTitle:L(@"action.quit_anyway")];
         if([a runModal]==NSAlertFirstButtonReturn) { [self refresh]; return NSTerminateCancel; }
     }
     return NSTerminateNow;

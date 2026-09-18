@@ -5,10 +5,11 @@
 <key>CFBundleDisplayName</key><string>AirMic</string>
 <key>CFBundleIdentifier</key><string>local.airmic.app</string>
 <key>CFBundleExecutable</key><string>AirMic</string>
+<key>CFBundleDevelopmentRegion</key><string>en</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleVersion</key><string>1</string>
 <key>CFBundleShortVersionString</key><string>0.1.0</string>
 <key>LSMinimumSystemVersion</key><string>14.0</string>
 <key>LSUIElement</key><true/>
-<key>NSMicrophoneUsageDescription</key><string>AirPods 버튼 입력을 받아 현재 마이크를 음소거·해제합니다. 오디오는 저장하거나 전송하지 않습니다.</string>
+<key>NSMicrophoneUsageDescription</key><string>AirMic uses microphone access to handle AirPods controls and mute or unmute the default input. Audio is never saved or transmitted.</string>
 </dict></plist>

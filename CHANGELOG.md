@@ -6,6 +6,8 @@ User-visible changes are recorded here. Version tags and releases will be create
 
 ### Added
 
+- English and Korean interface/permission translations using native macOS language preferences, with English fallback.
+- Resizable status window with wrapping labels and checks for localization completeness, placeholders, language selection, and layout.
 - Native macOS menu bar and status window for default-input microphone mute.
 - Compatible AirPods mute gesture handling through public Apple APIs.
 - Original mute-state restoration on normal quit, with disconnected device state retained locally.
@@ -15,7 +17,7 @@ User-visible changes are recorded here. Version tags and releases will be create
 
 ### Known limitations
 
-- Korean UI; compatible hardware mute control is required.
+- English/Korean UI; compatible hardware mute control is required.
 - Physical stem behavior has only been confirmed on one Apple Silicon/AirPods Pro setup.
 - No notarized binary download, automatic updater, or login launch.
 - Other call apps may compete for AirPods controls; input I/O can affect Bluetooth quality and power use.

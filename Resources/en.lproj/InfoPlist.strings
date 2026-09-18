@@ -1,0 +1,2 @@
+/* System microphone permission prompt. */
+"NSMicrophoneUsageDescription" = "AirMic uses microphone access to handle AirPods controls and mute or unmute the default input. Audio is never saved or transmitted.";

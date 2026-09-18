@@ -2,6 +2,8 @@
 
 Small, reproducible improvements are welcome. English and Korean are both fine.
 
+For interface translations, follow [the localization guide](docs/LOCALIZATION.md). Keep user-facing text in language resources and include the microphone permission purpose for every supported language.
+
 ## Before changing code
 
 - Search existing issues; use the bug or compatibility form for device-specific behavior.

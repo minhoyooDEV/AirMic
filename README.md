@@ -10,7 +10,7 @@ A small native menu bar app that lets you mute and unmute your **default input m
 
 [한국어](README.ko.md)
 
-Built with Objective-C and Apple's system frameworks. No dependencies, audio drivers, background services, accounts, or network requests. The current interface is in Korean.
+Built with Objective-C and Apple's system frameworks. No dependencies, audio drivers, background services, accounts, or network requests. The interface supports **English and Korean**, following your macOS language preferences.
 
 > **Experimental · source build.** Physical stem control has been confirmed on one Apple Silicon Mac with AirPods Pro. Automated builds do not prove hardware or conferencing-app compatibility. There is no signed, notarized download yet.
 
@@ -41,10 +41,16 @@ The script builds for your Mac's architecture and applies a local ad-hoc signatu
 
 1. Connect your AirPods and select the microphone you want to control as the Mac's default input.
 2. Open AirMic and allow microphone access if prompted.
-3. Wait for **AirPods 버튼 감지 중** (listening for AirPods controls).
+3. Wait for **Listening for AirPods controls**.
 4. Press the stem using your configured mute/unmute gesture. The window and menu bar icon show the microphone's mute state.
 
-You can also toggle mute in the window or menu. Closing the window leaves the app in the menu bar. To stop it, choose **종료 (원래 마이크 상태 복원)**, which attempts to restore the original mute state of microphones changed by AirMic.
+You can also toggle mute in the window or menu. Closing the window leaves the app in the menu bar. To stop it, choose **Quit and restore microphone**, which attempts to restore the original mute state of microphones changed by AirMic.
+
+### Language
+
+AirMic chooses the first supported language in your macOS preferences, with English as the fallback. To set a language just for AirMic, use **System Settings → General → Language & Region → Applications**, add AirMic, and choose English or Korean. Quit normally and reopen the app after changing it. Menus, status/error/help text, and the microphone permission purpose are localized. Diagnostic CLI commands keep stable English output.
+
+Want to add a language? See [localization guidance](docs/LOCALIZATION.md).
 
 ## Scope and tradeoffs
 
@@ -99,6 +105,7 @@ defaults delete local.airmic.app
 
 - `Source/main.m` — menu/window, AirPods events, Core Audio mute control
 - `Source/Info.plist` — app identity and microphone permission description
+- `Resources/*.lproj` — interface and permission translations
 - `build.sh` — compile and locally sign the app
 
 The small Objective-C protocol declaration allows compilation with an older SDK while resolving the **public macOS 14 API** at runtime. The app bundle still requires macOS 14 or later.
