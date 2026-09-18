@@ -122,7 +122,7 @@ build/AirMic.app/Contents/MacOS/AirMic --self-test
 | [Contributing](CONTRIBUTING.md) | Build locally, report a reproducible issue, or propose a focused PR |
 | [Architecture](docs/ARCHITECTURE.md) | Audio path, state transitions, and restoration behavior |
 | [Testing](docs/TESTING.md) | Automated checks and a manual hardware checklist |
-| [Maintenance](docs/MAINTAINING.md) | Triage, review, and release criteria |
+| [Maintenance](docs/MAINTAINING.md) · [Governance](docs/GOVERNANCE.md) | Triage, review, release criteria, and contribution paths |
 | [Security](SECURITY.md) | Report a possible vulnerability privately |
 | [Roadmap](docs/ROADMAP.md) · [Changes](CHANGELOG.md) | Current priorities and unreleased changes |
 
