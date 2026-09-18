@@ -1,0 +1,41 @@
+name: Bug report / 버그 제보
+description: Report reproducible behavior with the environment needed to investigate.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "English or Korean is welcome. Remove device UIDs, personal paths, and meeting content. For vulnerabilities, follow SECURITY.md."
+  - type: input
+    id: version
+    attributes:
+      label: Commit or version
+      placeholder: "Commit SHA from git rev-parse --short HEAD"
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: macOS version, Mac architecture, AirPods model/firmware if known, default input type, and relevant call app.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include listening state and whether another app handles AirPods controls.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected and actual result
+      description: Distinguish UI state, hardware state, and audio observed in the other app.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Sanitized diagnostics (optional)
+      description: Build errors or --check results, with personal device names removed. Do not attach audio.
