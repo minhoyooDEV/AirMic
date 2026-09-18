@@ -1,0 +1,237 @@
+{
+  "en": {
+    "name": "English",
+    "title": "AirMic — AirPods microphone mute for Mac",
+    "description": "AirMic is a free, open-source Mac menu bar app for muting your default microphone with compatible AirPods controls. Universal download for macOS 14+.",
+    "headline": "Your AirPods. Your microphone. One gesture.",
+    "intro": "AirMic is a free, open-source macOS menu bar app designed to mute and unmute your default input microphone with compatible AirPods stem controls.",
+    "download": "Download for Mac",
+    "source": "Source on GitHub",
+    "install": "How to install AirMic",
+    "steps": [
+      "Download the universal DMG, open it, and drag AirMic to Applications.",
+      "Open AirMic, allow microphone access, and connect your AirPods. Select the microphone you want to control as the Mac’s default input.",
+      "Use your configured AirPods mute gesture, or toggle mute from the compact window or menu bar. Quit normally to attempt restoration of the original microphone state."
+    ],
+    "notice": "Experimental beta · v0.1.0-beta.1. Ad-hoc signed; not Apple-notarized. macOS may require first-launch approval. Stem control worked in the original prototype; the current Swift version still needs physical verification. Compatibility with every AirPods model or calling app is not established.",
+    "factsTitle": "Small app. Clear scope.",
+    "facts": [
+      "macOS 14 or later · Apple Silicon and Intel",
+      "Swift and SwiftUI · MIT license · Free",
+      "English, Korean, Simplified Chinese, Japanese, Spanish",
+      "No accounts, telemetry, audio drivers, or network requests"
+    ],
+    "faqTitle": "Frequently asked questions",
+    "faq": [
+      [
+        "Can I mute my Mac microphone with AirPods Pro?",
+        "AirMic is designed for compatible AirPods mute events and a microphone with a writable Core Audio mute control. The original prototype was tested with AirPods Pro on one Apple Silicon Mac; hardware testing of the current Swift beta is pending."
+      ],
+      [
+        "Does it mute Zoom, Teams, or every microphone?",
+        "It changes the device-level mute state of the current default input. It does not toggle an app’s own mute button or mute all connected microphones. Calling apps may compete for AirPods controls; verify your setup before relying on it."
+      ],
+      [
+        "Does AirMic record audio?",
+        "No. It keeps an input audio unit active to receive controls, but does not read, save, transmit, or play microphone buffers. macOS may show its microphone indicator; Bluetooth playback quality and battery use may be affected."
+      ],
+      [
+        "Why does macOS ask before opening AirMic?",
+        "This experimental download has an ad-hoc signature, not a Developer ID signature or Apple notarization. Follow Apple’s official instructions for opening an app you trust."
+      ]
+    ],
+    "help": "Troubleshooting",
+    "apple": "Apple’s first-launch guidance",
+    "testing": "Compatibility and test evidence",
+    "footer": "Independent open-source project. Not affiliated with Apple.",
+    "preview": "Actual SwiftUI interface with sample state; hardware compatibility is still under verification."
+  },
+  "ko": {
+    "name": "한국어",
+    "title": "AirMic — 에어팟으로 Mac 마이크 음소거",
+    "description": "AirMic은 에어팟 버튼으로 Mac 기본 마이크 음소거를 제어하는 무료 오픈소스 메뉴 막대 앱입니다. macOS 14 이상, Apple Silicon·Intel 공용 다운로드.",
+    "headline": "에어팟 한 번으로, 마이크를 간편하게.",
+    "intro": "AirMic은 호환되는 AirPods 줄기 버튼으로 Mac의 기본 입력 마이크를 켜고 끄도록 설계한 무료 오픈소스 메뉴 막대 앱입니다.",
+    "download": "Mac용 다운로드",
+    "source": "GitHub 소스 보기",
+    "install": "AirMic 설치 방법",
+    "steps": [
+      "공용 DMG를 내려받아 열고 AirMic을 Applications로 드래그하세요.",
+      "앱을 실행해 마이크 접근을 허용하고 AirPods를 연결하세요. 제어할 마이크를 Mac의 기본 입력으로 선택하세요.",
+      "설정된 AirPods 음소거 제스처나 작은 창·메뉴 막대의 버튼으로 제어하세요. 정상 종료하면 원래 마이크 상태로 복원을 시도합니다."
+    ],
+    "notice": "실험 단계 베타 · v0.1.0-beta.1. 임시 서명이며 Apple 공증 전이므로 첫 실행 승인이 필요할 수 있습니다. 기존 프로토타입에서 버튼 동작을 확인했지만 현재 Swift 버전은 실기기 검증이 남아 있습니다. 모든 AirPods·통화 앱의 호환성을 보장하지 않습니다.",
+    "factsTitle": "작은 앱, 명확한 기능.",
+    "facts": [
+      "macOS 14 이상 · Apple Silicon 및 Intel",
+      "Swift·SwiftUI · MIT 라이선스 · 무료",
+      "한국어·중국어 간체·일본어·스페인어·영어",
+      "계정·사용 추적·오디오 드라이버·네트워크 요청 없음"
+    ],
+    "faqTitle": "자주 묻는 질문",
+    "faq": [
+      [
+        "에어팟 프로로 Mac 마이크를 음소거할 수 있나요?",
+        "호환되는 AirPods 음소거 이벤트와 Core Audio 음소거 제어를 지원하는 마이크가 필요합니다. 기존 프로토타입은 Apple Silicon Mac 한 대와 AirPods Pro에서 확인했으며, 현재 Swift 베타는 실기기 검증 전입니다."
+      ],
+      [
+        "Zoom이나 Teams의 음소거 버튼도 바뀌나요?",
+        "현재 기본 입력 장치 자체의 음소거 상태를 변경합니다. 통화 앱 내부 버튼이나 모든 연결된 마이크를 제어하지 않습니다. 통화 앱과 AirPods 제어가 충돌할 수 있어 실제 환경에서 확인해야 합니다."
+      ],
+      [
+        "음성을 녹음하나요?",
+        "아니요. 버튼 이벤트를 받기 위해 입력 오디오 장치를 활성화하지만 마이크 버퍼를 읽거나 저장·전송·재생하지 않습니다. macOS 마이크 표시가 나타나고 Bluetooth 재생 품질이나 배터리에 영향을 줄 수 있습니다."
+      ],
+      [
+        "실행할 때 macOS 확인창이 뜨는 이유는 무엇인가요?",
+        "현재 베타는 Developer ID 서명과 Apple 공증 전입니다. 신뢰하는 앱에 대해서만 Apple의 공식 첫 실행 안내를 따르세요."
+      ]
+    ],
+    "help": "문제 해결",
+    "apple": "Apple 첫 실행 안내",
+    "testing": "호환성 및 검증 기록",
+    "footer": "Apple과 제휴하지 않은 독립 오픈소스 프로젝트입니다.",
+    "preview": "실제 SwiftUI 화면의 예시 상태입니다. 실기기 호환성은 검증 중입니다."
+  },
+  "zh-Hans": {
+    "name": "简体中文",
+    "title": "AirMic — 用 AirPods 控制 Mac 麦克风静音",
+    "description": "AirMic 是免费的开源 macOS 菜单栏应用，通过兼容的 AirPods 控件切换默认麦克风静音。支持 macOS 14+、Apple Silicon 和 Intel。",
+    "headline": "轻按 AirPods，掌控麦克风。",
+    "intro": "AirMic 是免费的开源 Mac 菜单栏应用，旨在通过兼容的 AirPods 耳机柄控件切换默认输入麦克风的静音状态。",
+    "download": "下载 Mac 版",
+    "source": "GitHub 源代码",
+    "install": "如何安装 AirMic",
+    "steps": [
+      "下载并打开通用 DMG，将 AirMic 拖入 Applications。",
+      "启动应用，允许麦克风访问并连接 AirPods。将要控制的麦克风设为 Mac 默认输入。",
+      "使用已配置的 AirPods 静音手势，或通过小窗口和菜单栏切换静音。正常退出时，应用会尝试恢复原来的麦克风状态。"
+    ],
+    "notice": "实验性测试版 · v0.1.0-beta.1。采用临时签名，未经 Apple 公证，首次启动可能需要批准。原型已验证耳机柄操作；当前 Swift 版本仍待实机验证。尚未确认所有 AirPods 和通话应用的兼容性。",
+    "factsTitle": "小巧应用，明确功能。",
+    "facts": [
+      "macOS 14 或更高版本 · Apple Silicon 和 Intel",
+      "Swift 与 SwiftUI · MIT 许可证 · 免费",
+      "简体中文、韩语、日语、西班牙语和英语",
+      "无账号、遥测、音频驱动或网络请求"
+    ],
+    "faqTitle": "常见问题",
+    "faq": [
+      [
+        "AirPods Pro 可以让 Mac 麦克风静音吗？",
+        "需要兼容的 AirPods 静音事件和支持 Core Audio 静音控制的麦克风。原型曾在一台 Apple Silicon Mac 与 AirPods Pro 上测试；当前 Swift 测试版仍待实机验证。"
+      ],
+      [
+        "会切换 Zoom 或 Teams 的静音按钮吗？",
+        "它只改变当前默认输入设备的静音状态，不控制应用内的静音按钮，也不会让所有连接的麦克风静音。通话应用可能争用 AirPods 控件，请先验证实际环境。"
+      ],
+      [
+        "AirMic 会录音吗？",
+        "不会。它保持输入音频单元运行以接收控件事件，但不读取、保存、传输或播放麦克风缓冲区。macOS 可能显示麦克风指示器，Bluetooth 播放质量和电池消耗可能受到影响。"
+      ],
+      [
+        "为什么 macOS 在启动时要求确认？",
+        "此测试版没有 Developer ID 签名或 Apple 公证。对于您信任的应用，请遵循 Apple 的官方打开说明。"
+      ]
+    ],
+    "help": "故障排除（英语）",
+    "apple": "Apple 首次启动指南",
+    "testing": "兼容性与测试记录（英语）",
+    "footer": "独立开源项目，与 Apple 无关联。",
+    "preview": "使用示例状态渲染的真实 SwiftUI 界面；实机兼容性仍待验证。"
+  },
+  "ja": {
+    "name": "日本語",
+    "title": "AirMic — AirPods で Mac のマイクをミュート",
+    "description": "AirMic は対応する AirPods の操作で Mac の既定マイクをミュートする無料オープンソースのメニューバーアプリです。macOS 14 以降、Apple Silicon・Intel 対応。",
+    "headline": "AirPods から、マイクを手軽に。",
+    "intro": "AirMic は、対応する AirPods のステム操作で Mac のデフォルト入力マイクのミュートを切り替えるための、無料オープンソースのメニューバーアプリです。",
+    "download": "Mac 版をダウンロード",
+    "source": "GitHub のソース",
+    "install": "AirMic のインストール方法",
+    "steps": [
+      "ユニバーサル DMG をダウンロードして開き、AirMic を Applications にドラッグします。",
+      "アプリを起動し、マイクへのアクセスを許可して AirPods を接続します。制御するマイクを Mac のデフォルト入力に設定します。",
+      "設定済みの AirPods ミュートジェスチャー、または小さなウインドウやメニューバーから切り替えます。通常終了すると、元のマイク状態への復元を試みます。"
+    ],
+    "notice": "実験的ベータ · v0.1.0-beta.1。アドホック署名で、Apple の公証は受けていません。初回起動時に承認が必要な場合があります。旧プロトタイプではステム操作を確認済みですが、現在の Swift 版は実機検証待ちです。すべての AirPods・通話アプリとの互換性は未確認です。",
+    "factsTitle": "小さなアプリ、明確な役割。",
+    "facts": [
+      "macOS 14 以降 · Apple Silicon と Intel",
+      "Swift・SwiftUI · MIT ライセンス · 無料",
+      "日本語・韓国語・簡体字中国語・スペイン語・英語",
+      "アカウント・利用状況の追跡・音声ドライバー・ネットワーク通信なし"
+    ],
+    "faqTitle": "よくある質問",
+    "faq": [
+      [
+        "AirPods Pro で Mac のマイクをミュートできますか？",
+        "対応する AirPods のミュートイベントと、Core Audio のミュート制御に対応するマイクが必要です。旧プロトタイプは 1 台の Apple Silicon Mac と AirPods Pro で確認済みですが、現在の Swift ベータは実機検証待ちです。"
+      ],
+      [
+        "Zoom や Teams のミュートボタンも変わりますか？",
+        "現在のデフォルト入力デバイスのミュート状態を変更します。アプリ内のボタンや、接続されたすべてのマイクは制御しません。通話アプリと AirPods 操作が競合する可能性があるため、使用環境で確認してください。"
+      ],
+      [
+        "録音しますか？",
+        "いいえ。操作イベントを受け取るため入力オーディオユニットを稼働させますが、マイクバッファを読み取り・保存・送信・再生しません。macOS のマイク使用表示が出たり、Bluetooth の再生品質やバッテリーに影響したりする場合があります。"
+      ],
+      [
+        "起動時に macOS の確認が出るのはなぜですか？",
+        "このベータには Developer ID 署名と Apple の公証がありません。信頼するアプリについてのみ、Apple の公式手順に従ってください。"
+      ]
+    ],
+    "help": "トラブルシューティング（英語）",
+    "apple": "Apple の初回起動ガイド",
+    "testing": "互換性とテスト記録（英語）",
+    "footer": "Apple とは関係のない独立したオープンソースプロジェクトです。",
+    "preview": "実際の SwiftUI 画面をサンプル状態で表示しています。実機の互換性は検証中です。"
+  },
+  "es": {
+    "name": "Español",
+    "title": "AirMic — Silencia el micrófono del Mac con AirPods",
+    "description": "AirMic es una app gratuita y de código abierto para silenciar el micrófono predeterminado del Mac con controles AirPods compatibles. Descarga para macOS 14+.",
+    "headline": "Tus AirPods. Tu micrófono. Un gesto.",
+    "intro": "AirMic es una app gratuita y de código abierto para la barra de menús de macOS, diseñada para activar y desactivar el silencio del micrófono de entrada predeterminado con controles AirPods compatibles.",
+    "download": "Descargar para Mac",
+    "source": "Código en GitHub",
+    "install": "Cómo instalar AirMic",
+    "steps": [
+      "Descarga y abre el DMG universal y arrastra AirMic a Applications.",
+      "Abre AirMic, permite el acceso al micrófono y conecta tus AirPods. Selecciona el micrófono que quieres controlar como entrada predeterminada del Mac.",
+      "Usa el gesto de silencio configurado en tus AirPods o el botón de la ventana o de la barra de menús. Al salir normalmente, la app intenta restaurar el estado original del micrófono."
+    ],
+    "notice": "Beta experimental · v0.1.0-beta.1. Firma ad hoc, sin notarización de Apple. macOS puede pedir aprobación al abrirla por primera vez. El control físico funcionó en el prototipo original; la versión actual en Swift aún necesita verificación física. No se ha confirmado la compatibilidad con todos los AirPods ni las apps de llamadas.",
+    "factsTitle": "Una app pequeña, con un alcance claro.",
+    "facts": [
+      "macOS 14 o posterior · Apple Silicon e Intel",
+      "Swift y SwiftUI · Licencia MIT · Gratis",
+      "Español, inglés, coreano, chino simplificado y japonés",
+      "Sin cuentas, telemetría, controladores de audio ni solicitudes de red"
+    ],
+    "faqTitle": "Preguntas frecuentes",
+    "faq": [
+      [
+        "¿Puedo silenciar el micrófono del Mac con AirPods Pro?",
+        "Se necesitan eventos de silencio de AirPods compatibles y un micrófono que admita el control de silencio de Core Audio. El prototipo se probó con AirPods Pro en un Mac con Apple Silicon; la beta actual en Swift sigue pendiente de pruebas físicas."
+      ],
+      [
+        "¿Cambia el botón de silencio de Zoom o Teams?",
+        "Cambia el estado de silencio del dispositivo de entrada predeterminado. No modifica el botón de cada app ni silencia todos los micrófonos conectados. Las apps de llamadas pueden competir por los controles AirPods; comprueba tu configuración antes de depender de ella."
+      ],
+      [
+        "¿AirMic graba audio?",
+        "No. Mantiene activa una unidad de entrada para recibir los controles, pero no lee, guarda, transmite ni reproduce los búferes del micrófono. macOS puede mostrar su indicador de micrófono; la calidad de reproducción Bluetooth y la batería pueden verse afectadas."
+      ],
+      [
+        "¿Por qué macOS pide confirmación al abrir AirMic?",
+        "Esta beta tiene firma ad hoc, sin firma Developer ID ni notarización de Apple. Sigue las instrucciones oficiales de Apple para abrir una app en la que confíes."
+      ]
+    ],
+    "help": "Solución de problemas (inglés)",
+    "apple": "Guía de Apple para el primer inicio",
+    "testing": "Compatibilidad y pruebas (inglés)",
+    "footer": "Proyecto independiente de código abierto. No afiliado a Apple.",
+    "preview": "Interfaz SwiftUI real con un estado de ejemplo; la compatibilidad física sigue en verificación."
+  }
+}

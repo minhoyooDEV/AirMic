@@ -1,4 +1,14 @@
-# AirMic
+<div align="center">
+
+![AirMic — A little air. A little silence.](docs/images/banner.svg)
+
+# AirMic — 에어팟으로 Mac 마이크 음소거
+
+**가볍게 누르고, 조용하게 집중하세요.**
+
+[**Mac용 다운로드 ↗**](https://github.com/minhoyooDEV/AirMic/releases/tag/v0.1.0-beta.1) · [**AirMic 둘러보기**](https://minhoyoodev.github.io/AirMic/ko/)
+
+</div>
 
 [![Build](https://github.com/minhoyooDEV/AirMic/actions/workflows/build.yml/badge.svg)](https://github.com/minhoyooDEV/AirMic/actions/workflows/build.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -7,11 +17,19 @@
 
 AirPods 줄기 버튼으로 **Mac의 기본 입력 마이크**를 켜고 끄는 작은 메뉴 막대 앱입니다.
 
-[English](README.md)
+[공식 소개](https://minhoyoodev.github.io/AirMic/ko/) · [English](README.md) · [简体中文](https://minhoyoodev.github.io/AirMic/zh-Hans/) · [日本語](https://minhoyoodev.github.io/AirMic/ja/) · [Español](https://minhoyoodev.github.io/AirMic/es/)
 
 Swift·SwiftUI와 Apple 기본 프레임워크로 만들었습니다. 외부 라이브러리나 별도 오디오 드라이버 없이 동작합니다. **한국어·중국어 간체·일본어·스페인어·영어 UI**를 지원하며 macOS 언어 설정을 따릅니다.
 
 > **실험 단계 베타.** 다운로드는 로컬 임시 서명이며 Apple 공증 전입니다. 기존 프로토타입의 AirPods 버튼 동작은 확인했지만, Swift 전환본은 실제 버튼 검증이 남아 있습니다. 자동 검증 성공이 모든 기기·통화 앱의 호환성을 뜻하지는 않습니다.
+
+## 작은 창으로, 상태를 한눈에
+
+| 마이크 켜짐 | 마이크 꺼짐 |
+| :---: | :---: |
+| <img src="docs/images/airmic-ko-ready.png" width="336" alt="AirMic의 한국어 SwiftUI 창: 마이크 켜짐, AirPods Pro 입력"> | <img src="docs/images/airmic-ko-muted.png" width="336" alt="AirMic의 한국어 SwiftUI 창: 마이크 꺼짐"> |
+
+실제 SwiftUI 화면을 예시 상태로 렌더링했습니다. 마이크에 접근하지 않은 UI 미리보기이며 실기기 호환성 검증을 뜻하지 않습니다. 배경 흐림은 바탕화면과 손쉬운 사용 설정에 따라 달라집니다.
 
 ## 다운로드·설치
 

@@ -4,6 +4,11 @@ User-visible changes are recorded here. Version tags and releases will be create
 
 ## Unreleased
 
+### Added
+
+- Five-language, crawlable project website with installation answers, accurate beta compatibility information, canonical and language links, application metadata, and a sitemap.
+- Reproducible website generation and a CI freshness check.
+
 ## 0.1.0-beta.1 — 2026-09-18
 
 ### Added

@@ -1,4 +1,14 @@
-# AirMic
+<div align="center">
+
+![AirMic — A little air. A little silence.](docs/images/banner.svg)
+
+# AirMic — AirPods microphone mute for Mac
+
+**A little air. A little silence. A simpler Mac.**
+
+[**Download for Mac ↗**](https://github.com/minhoyooDEV/AirMic/releases/tag/v0.1.0-beta.1) · [**Explore AirMic**](https://minhoyoodev.github.io/AirMic/)
+
+</div>
 
 [![Build](https://github.com/minhoyooDEV/AirMic/actions/workflows/build.yml/badge.svg)](https://github.com/minhoyooDEV/AirMic/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -8,7 +18,7 @@
 
 A small native menu bar app that lets you mute and unmute your **default input microphone** with your AirPods stem button.
 
-[한국어](README.ko.md)
+[Website](https://minhoyoodev.github.io/AirMic/) · [한국어](README.ko.md) · [简体中文](https://minhoyoodev.github.io/AirMic/zh-Hans/) · [日本語](https://minhoyoodev.github.io/AirMic/ja/) · [Español](https://minhoyoodev.github.io/AirMic/es/)
 
 Built with Swift, SwiftUI, and Apple's system frameworks. No dependencies, audio drivers, background services, accounts, or network requests. The interface supports **Korean, Simplified Chinese, Japanese, Spanish, and English**, following your macOS language preferences.
 
@@ -20,6 +30,14 @@ Built with Swift, SwiftUI, and Apple's system frameworks. No dependencies, audio
 | A visible state | Shows microphone state in the menu bar and a small status window |
 | A clean exit | Attempts to restore the original mute state on normal quit |
 | A small, inspectable tool | Uses native frameworks; keeps audio buffers unread |
+
+## A small window. A clear state.
+
+| Microphone on | Microphone muted |
+| :---: | :---: |
+| <img src="docs/images/airmic-en-ready.png" width="336" alt="AirMic compact SwiftUI window showing microphone on and AirPods Pro input"> | <img src="docs/images/airmic-en-muted.png" width="336" alt="AirMic compact SwiftUI window showing microphone muted"> |
+
+Actual SwiftUI views rendered with sample state, without microphone access. These previews demonstrate the interface, not verified hardware compatibility. Background blur varies with the desktop and accessibility settings.
 
 ## Download and use
 
@@ -36,7 +54,7 @@ Each release includes a SHA-256 checksum. Signing status and untested hardware c
 
 ## Build from source
 
-Requires **macOS 14+**, Apple Command Line Tools or Xcode, compatible AirPods, and a microphone with a writable Core Audio mute control. The stem gesture has been tested on one Apple Silicon Mac with AirPods Pro; other devices and macOS versions are not yet verified.
+Requires **macOS 14+**, Apple Command Line Tools or Xcode, compatible AirPods, and a microphone with a writable Core Audio mute control. The original prototype’s stem gesture was tested on one Apple Silicon Mac with AirPods Pro; the current Swift beta and other hardware combinations still need physical verification.
 
 ```sh
 # Install Apple's developer tools if needed:
