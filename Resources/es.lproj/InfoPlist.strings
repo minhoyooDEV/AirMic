@@ -1,0 +1,2 @@
+/* System microphone permission prompt. */
+"NSMicrophoneUsageDescription" = "AirMic accede al micrófono para detectar los controles de AirPods y silenciar o activar la entrada predeterminada. El audio nunca se guarda ni se transmite.";

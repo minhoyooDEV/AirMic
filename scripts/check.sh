@@ -7,7 +7,7 @@ if [[ "$(uname -s)" != Darwin ]]; then
   exit 1
 fi
 
-bash -n build.sh scripts/check.sh scripts/check-localizations.sh
+bash -n build.sh scripts/check.sh scripts/check-localizations.sh scripts/package.sh
 bash build.sh
 
 app=build/AirMic.app

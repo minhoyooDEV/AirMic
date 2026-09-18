@@ -2,5 +2,6 @@
 build/
 *.app/
 *.zip
+*.dmg
 .env
 .env.*

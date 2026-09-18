@@ -30,5 +30,7 @@
 "error.restore_title" = "Could not restore microphone state";
 "action.cancel_quit" = "Cancel quit";
 "action.quit_anyway" = "Quit anyway";
+"action.quit_short" = "Quit AirMic";
+"window.close_hint" = "Close this window and keep AirMic in the menu bar.";
 "device.input" = "Input: %@";
 "help.body" = "Choose “Start AirPods controls” from the menu and allow microphone access. Use your configured AirPods mute gesture to mute or unmute the Mac’s default input microphone.\n\nThis affects other apps using the same microphone, but does not control other inputs. Listening may show the microphone-use indicator and affect Bluetooth quality or battery use. Audio is never saved or transmitted.\n\nYou can also toggle mute in the window or menu. Normal quit attempts to restore the original mute state. Other calling apps may compete for AirPods controls.";
