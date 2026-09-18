@@ -28,6 +28,7 @@ AirMic is a small, experimental project maintained by [@minhoyooDEV](https://git
 - [ ] State architecture, minimum macOS, source commit, and signing/notarization status in release notes.
 - [ ] Attach checksums. Stable distribution requires Developer ID signing/notarization. An ad-hoc experimental beta must clearly disclose its signing status and link to Apple’s first-launch guidance; do not disable Gatekeeper.
 - [ ] Tag the verified commit and publish notes linking the relevant issues/PRs. Mark experimental releases as prereleases.
+- [ ] Update `scripts/build-site.py` release links/version and all five `site/content.json` translations; regenerate the site and verify public links. See [search discovery maintenance](SEARCH.md).
 - [ ] Reproduce installation and removal from the actual published artifact.
 
 Beta binaries are universal DMGs for macOS 14+ and are explicitly marked as prereleases. The current beta uses ad-hoc signing, not Developer ID/notarization. A stable release is not implied by the development bundle version.

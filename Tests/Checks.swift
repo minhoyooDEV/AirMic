@@ -85,6 +85,9 @@ enum Checks {
         app.setActivationPolicy(.accessory)
         let subject = StatusWindow()
         checkWindow(subject)
+        if let directory = UserDefaults.standard.string(forKey: "ScreenshotDirectory") {
+            exportScreenshots(directory: directory, language: expected)
+        }
         if UserDefaults.standard.bool(forKey: "ShowPreview") {
             let dark = UserDefaults.standard.string(forKey: "Appearance") == "dark"
             subject.window?.appearance = NSAppearance(named: dark ? .darkAqua : .aqua)

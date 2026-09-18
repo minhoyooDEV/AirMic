@@ -7,6 +7,8 @@ if [[ "$(uname -s)" != Darwin ]]; then
   exit 1
 fi
 
+python3 scripts/build-site.py --check
+
 bash -n build.sh scripts/check.sh scripts/check-localizations.sh scripts/package.sh
 bash build.sh
 
