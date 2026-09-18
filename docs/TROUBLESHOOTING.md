@@ -6,7 +6,7 @@ macOS usually prompts only when a choice is needed. Check **System Settings → 
 
 ## The stem does nothing
 
-Confirm that AirMic says **AirPods 버튼 감지 중**, the AirPods are connected, and you used their configured mute gesture. Check the current default input supports a writable mute property with `--check`. Other calling apps can take over AirPods controls; try without those apps, then test your intended combination. Include the environment and reproduction in a bug report.
+Confirm that AirMic says **Listening for AirPods controls** (한국어: **AirPods 버튼 감지 중**), the AirPods are connected, and you used their configured mute gesture. Check the current default input supports a writable mute property with `--check`. Other calling apps can take over AirPods controls; try without those apps, then test your intended combination. Include the environment and reproduction in a bug report.
 
 ## The UI says muted, but another app hears audio
 
@@ -22,7 +22,7 @@ Listening keeps input I/O active even though buffers are unread. Stop button det
 
 ## Mute state did not restore
 
-Reconnect the affected input, launch AirMic, and quit with **종료 (원래 마이크 상태 복원)**. If a connected device fails restoration, the app offers to cancel quitting. Disconnected devices are retained for a later retry. If recovery still fails, set the microphone's mute state through its own controls and report the failure.
+Reconnect the affected input, launch AirMic, and quit with **Quit and restore microphone** (한국어: **종료 (원래 마이크 상태 복원)**). If a connected device fails restoration, the app offers to cancel quitting. Disconnected devices are retained for a later retry. If recovery still fails, set the microphone's mute state through its own controls and report the failure.
 
 Do not remove `OriginalMuteStates` until you have restored the intended state. Normal quit restores the value from before AirMic's first change, which may differ from changes another app made later.
 

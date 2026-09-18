@@ -22,6 +22,8 @@ Window/menu toggle ────────────────────�
 
 All implementation lives in `Source/main.m`. Prefer separating a component when behavior or tests justify it, rather than introducing a framework for this small app.
 
+Interface strings use stable keys through `Source/Localization.h` and native `NSBundle` resource lookup. `Resources/en.lproj` is the development language, with Korean in `ko.lproj`. The build copies language resources before signing. The status window uses a vertical stack with wrapping labels so translated messages can grow. See [localization](LOCALIZATION.md) for the resource and test contract.
+
 ## Input and event lifecycle
 
 After microphone permission, the app resolves the public macOS 14 `AVAudioApplication` API, sets up its mute-state handler, and starts an input-only AUHAL unit on the default input. Output I/O is disabled. The callback returns without rendering or reading input buffers.

@@ -1,0 +1,2 @@
+/* System microphone permission prompt. */
+"NSMicrophoneUsageDescription" = "AirPods 버튼 입력으로 기본 입력 마이크를 음소거하거나 해제합니다. 오디오는 저장하거나 전송하지 않습니다.";
