@@ -220,7 +220,7 @@ enum AirMic {
           No arguments  Open the menu bar app and request microphone access.
           --help        Show this help without accessing audio hardware.
           --version     Show the bundle version without accessing audio hardware.
-          --check       Read the default input's mute capability and state.
+          --check       Read default input mute status; omit device names/IDs.
           --self-test   Flip real hardware mute, then attempt to restore it.
                         Run only outside calls and recordings.
 
@@ -233,10 +233,9 @@ enum AirMic {
                 guard let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String else { exit(1) }
                 print("AirMic \(version)"); return
             case "--check":
-                let audio = SystemAudioDevices(), device = SystemAudioDevices().defaultInput
-                let muted = audio.readMute(device)
-                print("device=\(audio.name(device)) supported=\(muted == nil ? 0 : 1) muted=\(muted == true ? 1 : 0)")
-                exit(muted == nil ? 1 : 0)
+                let report = InputDiagnostic(audio: SystemAudioDevices())
+                print(report.line)
+                exit(report.exitCode)
             case "--self-test":
                 let audio = SystemAudioDevices(), device = SystemAudioDevices().defaultInput
                 guard let prior = audio.readMute(device) else { exit(1) }

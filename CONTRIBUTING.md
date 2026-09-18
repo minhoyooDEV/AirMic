@@ -19,6 +19,10 @@ For interface translations, follow [the localization guide](docs/LOCALIZATION.md
 4. Update both READMEs when user-facing behavior changes and add a short entry under `Unreleased` in `CHANGELOG.md`.
 5. Open a focused PR with the problem, resulting behavior, and actual validation. Explicitly list untested hardware cases.
 
+## First contributions
+
+See [governance and current contribution paths](docs/GOVERNANCE.md) for translation review, compatibility reports, accessibility checks, and fake-device regression tests. AI-assisted changes are welcome when you review them, disclose material assistance, and report actual checks. Repository-specific agent guidance is in [AGENTS.md](AGENTS.md).
+
 ## Commits and review
 
 Use imperative, descriptive subjects. A prefix such as `fix:`, `feat:`, `docs:`, or `ci:` is encouraged, not enforced. Keep unrelated changes separate; do not manufacture history or rewrite other contributors' commits. Link the issue with `Refs #123`, or `Closes #123` when the PR completes it.

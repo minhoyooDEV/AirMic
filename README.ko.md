@@ -125,3 +125,5 @@ defaults delete local.airmic.app
 - [로드맵](docs/ROADMAP.md) · [변경 기록](CHANGELOG.md)
 
 [이슈 양식](https://github.com/minhoyooDEV/AirMic/issues/new/choose)에서 버그·기능·호환성 결과를 남길 수 있습니다. 한국어와 영어 모두 환영합니다. 개인 프로젝트이므로 응답 기한이나 기능 제공 시점을 약속하지는 않습니다.
+
+유지보수 책임과 참여 방법은 [프로젝트 운영 안내](docs/GOVERNANCE.md)를 참고하세요.

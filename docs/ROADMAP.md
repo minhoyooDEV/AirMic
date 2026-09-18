@@ -4,6 +4,7 @@ These are directions for discussion, not scheduled commitments. Track implementa
 
 | Priority | Work | Done when |
 | --- | --- | --- |
+| Next | Accessibility evidence | Keyboard, VoiceOver, contrast, and Reduce Transparency checks recorded for the release commit |
 | Next | Broader compatibility evidence | Reports identify commit, macOS, architecture, AirPods/input model, and actual audio behavior |
 | Available | Korean/Chinese/Japanese/Spanish/English UI | Native language selection, translated permission text, and localization checks; see [the translation guide](LOCALIZATION.md) |
 | Available | SwiftUI Mac window and testable Swift controller | Light/dark frosted UI, window/menu-bar lifecycle, and fake-device failure/restoration tests |

@@ -36,3 +36,15 @@ Install Apple's Command Line Tools or use an Xcode installation whose license yo
 - 버튼 감지가 켜져 있는지, 기본 입력이 음소거 제어를 지원하는지 확인하세요.
 - 통화 앱이 다른 입력 장치를 쓰면 AirMic의 음소거가 적용되지 않습니다.
 - 복원 실패 시 장치를 다시 연결하고 AirMic을 정상 종료하세요. 복원 전 설정을 지우지 마세요.
+
+## Sharing diagnostics safely
+
+Current source builds of `AirMic --check` read only the default input mute capability/state and omit device names and identifiers:
+
+```text
+input=default supported=1 muted=0
+```
+
+`muted=1` means the device mute property is set; `muted=0` means it is clear. `supported=0 muted=unknown` means AirMic could not obtain a supported writable mute control, not that the microphone is unmuted. Exit status is 0 for supported input, 1 otherwise. This does not activate audio I/O or prove another app is silent.
+
+The published **v0.1.0-beta.1** binary predates this change and still includes the device name in `--check`; remove personal names before posting its output. Review all logs and screenshots for private information before sharing.

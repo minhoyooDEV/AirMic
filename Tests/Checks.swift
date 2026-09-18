@@ -81,6 +81,7 @@ enum Checks {
         guard let expected = UserDefaults.standard.string(forKey: "ExpectedLanguage") else { fatalError("Pass -ExpectedLanguage") }
         checkResources(expected)
         checkMuteRestoration()
+        checkDiagnostics()
         let app = NSApplication.shared
         app.setActivationPolicy(.accessory)
         let subject = StatusWindow()

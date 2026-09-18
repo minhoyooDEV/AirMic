@@ -4,6 +4,10 @@ User-visible changes are recorded here. Version tags and releases will be create
 
 ## Unreleased
 
+### Fixed
+
+- Source builds of `--check` no longer read or print personal device names. Unsupported mute state is reported as `unknown`, not incorrectly as unmuted. The published v0.1.0-beta.1 binary predates this fix.
+
 ### Added
 
 - Five-language, crawlable project website with installation answers, accurate beta compatibility information, canonical and language links, application metadata, and a sitemap.
