@@ -1,10 +1,17 @@
 # AirMic
 
+[![Build](https://github.com/minhoyooDEV/AirMic/actions/workflows/build.yml/badge.svg)](https://github.com/minhoyooDEV/AirMic/actions/workflows/build.yml)
+[![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+**AirPods 버튼으로, Mac의 마이크를 간단하게.**
+
 AirPods 줄기 버튼으로 **Mac의 기본 입력 마이크**를 켜고 끄는 작은 메뉴 막대 앱입니다.
 
 [English](README.md)
 
 외부 라이브러리나 별도 오디오 드라이버 없이 동작합니다. 현재 UI는 한국어입니다.
+
+> **실험 단계 · 소스 빌드 방식.** Apple Silicon Mac과 AirPods Pro 한 조합에서 버튼 동작을 확인했습니다. 자동 빌드 성공이 모든 기기·통화 앱의 호환성을 뜻하지는 않습니다. 서명·공증된 다운로드는 아직 없습니다.
 
 ## 빌드·실행
 
@@ -14,7 +21,8 @@ macOS 14 이상, Command Line Tools 또는 Xcode, 호환되는 AirPods와 음소
 # 개발 도구가 없다면:
 xcode-select --install
 
-# 저장소 폴더에서:
+git clone https://github.com/minhoyooDEV/AirMic.git
+cd AirMic
 bash build.sh
 open build/AirMic.app
 ```
@@ -44,6 +52,9 @@ open build/AirMic.app
 ## 개발 확인
 
 ```sh
+# 빌드·서명·번들·명령줄 확인 (마이크를 활성화하지 않음)
+bash scripts/check.sh
+
 # 읽기 전용 상태 확인
 build/AirMic.app/Contents/MacOS/AirMic --check
 
@@ -63,3 +74,13 @@ defaults delete local.airmic.app
 ## 라이선스
 
 [MIT](LICENSE). Apple과 관계없는 독립 프로젝트입니다.
+
+## 참여·유지보수
+
+- [문제 해결](docs/TROUBLESHOOTING.md): 권한, 버튼 감지, 음소거 복원
+- [기여 안내](CONTRIBUTING.md): 이슈와 PR 작성, 로컬 검증
+- [테스트 범위](docs/TESTING.md) · [구조](docs/ARCHITECTURE.md)
+- [유지보수·배포 기준](docs/MAINTAINING.md) · [보안 제보](SECURITY.md)
+- [로드맵](docs/ROADMAP.md) · [변경 기록](CHANGELOG.md)
+
+[이슈 양식](https://github.com/minhoyooDEV/AirMic/issues/new/choose)에서 버그·기능·호환성 결과를 남길 수 있습니다. 한국어와 영어 모두 환영합니다. 개인 프로젝트이므로 응답 기한이나 기능 제공 시점을 약속하지는 않습니다.

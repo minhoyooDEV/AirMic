@@ -1,0 +1,23 @@
+name: Feature request / 기능 제안
+description: Explain the use case and a focused improvement.
+title: "feat: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior and acceptance criteria
+      description: Explain how we could tell it works. English or Korean is welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Alternatives and tradeoffs
+      description: Consider dependencies, background activity, permissions, and maintenance cost.
