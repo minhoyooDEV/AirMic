@@ -67,9 +67,9 @@ private struct AirButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: prominent ? 14 : 12, weight: prominent ? .semibold : .medium))
+            .font(.system(size: prominent ? 13 : 11, weight: prominent ? .semibold : .medium))
             .frame(maxWidth: .infinity)
-            .frame(height: prominent ? 46 : 38)
+            .frame(height: prominent ? 40 : 30)
             .foregroundColor(prominent ? (dark ? .black : .white) : .primary)
             .background(Capsule().fill(prominent ? (dark ? Color(white: 0.94) : Color(white: 0.13)) : Color.primary.opacity(dark ? 0.06 : 0.035)))
             .overlay(Capsule().stroke(Color.primary.opacity(prominent ? 0 : 0.06), lineWidth: 0.75))
@@ -87,11 +87,11 @@ private struct MicrophoneMark: View {
     }
     var body: some View {
         Image(systemName: state.symbol)
-            .font(.system(size: 36, weight: .regular))
+            .font(.system(size: 27, weight: .regular))
             .foregroundColor(tint)
-            .frame(width: 92, height: 92)
-            .background(RoundedRectangle(cornerRadius: 28, style: .continuous).fill(Color.white.opacity(scheme == .dark ? 0.07 : 0.68)))
-            .overlay(RoundedRectangle(cornerRadius: 28, style: .continuous).stroke(Color.white.opacity(scheme == .dark ? 0.15 : 0.9), lineWidth: 1))
+            .frame(width: 60, height: 60)
+            .background(RoundedRectangle(cornerRadius: 19, style: .continuous).fill(Color.white.opacity(scheme == .dark ? 0.07 : 0.68)))
+            .overlay(RoundedRectangle(cornerRadius: 19, style: .continuous).stroke(Color.white.opacity(scheme == .dark ? 0.15 : 0.9), lineWidth: 1))
             .shadow(color: tint.opacity(0.08), radius: 16, x: 0, y: 8)
             .accessibilityHidden(true)
     }
@@ -103,45 +103,46 @@ struct StatusView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text("AirMic").font(.system(size: 14, weight: .semibold)).foregroundColor(.secondary)
-                .padding(.bottom, 24)
-            MicrophoneMark(state: model.state).padding(.bottom, 22)
-            Text(model.state.title).font(.system(size: 26, weight: .semibold))
-                .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
-                .padding(.bottom, 8)
-            Text(LF("device.input", model.state.input)).font(.system(size: 13))
+            Text("AirMic").font(.system(size: 12, weight: .semibold)).foregroundColor(.secondary)
+                .padding(.bottom, 12)
+            MicrophoneMark(state: model.state).padding(.bottom, 12)
+            Text(model.state.title).font(.system(size: 22, weight: .semibold))
+                .multilineTextAlignment(.center).frame(maxWidth: 288).fixedSize(horizontal: false, vertical: true)
+                .padding(.bottom, 6)
+            Text(LF("device.input", model.state.input)).font(.system(size: 12))
                 .foregroundColor(.secondary).multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true).padding(.bottom, 16)
+                .fixedSize(horizontal: false, vertical: true).padding(.bottom, 10)
             HStack(spacing: 6) {
                 Circle().fill(model.state.listening ? Color(red: 0.27, green: 0.61, blue: 0.52) : Color.secondary.opacity(0.5))
                     .frame(width: 5, height: 5).accessibilityHidden(true)
                 Text(model.state.message).font(.system(size: 11))
-                    .foregroundColor(.secondary).multilineTextAlignment(.center)
+                    .foregroundColor(.secondary).multilineTextAlignment(.center).frame(maxWidth: 228)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            .padding(.horizontal, 12).padding(.vertical, 7)
+            .padding(.horizontal, 12).padding(.vertical, 6)
             .background(Capsule().fill(Color.primary.opacity(0.035)))
-            .padding(.bottom, 24)
+            .padding(.bottom, 12)
             Button(model.state.action) { model.onToggle?() }
                 .buttonStyle(AirButtonStyle(prominent: true))
                 .disabled(model.state.muted == nil)
                 .accessibilityIdentifier("toggle-mute")
-                .padding(.bottom, 10)
+                .padding(.bottom, 8)
             Button(L(model.state.listening ? "action.stop_listening" : "action.start_listening")) { model.onListening?() }
                 .buttonStyle(AirButtonStyle())
-                .padding(.bottom, 22)
+                .padding(.bottom, 12)
             HStack(spacing: 24) {
                 Button(L("action.help")) { model.onHelp?() }
                 Button(L("action.quit_short")) { model.onQuit?() }
             }
             .buttonStyle(PlainButtonStyle()).font(.system(size: 11)).foregroundColor(.secondary)
-            .padding(.bottom, 18)
+            .padding(.bottom, 10)
             Label(L("privacy.summary"), systemImage: "lock.shield")
-                .font(.system(size: 10)).foregroundColor(.secondary)
+                .font(.system(size: 9)).foregroundColor(.secondary)
                 .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
         }
-        .padding(.horizontal, 32).padding(.top, 42).padding(.bottom, 26)
-        .frame(minWidth: 388, maxWidth: .infinity, minHeight: 516, maxHeight: .infinity)
+        .padding(.horizontal, 24).padding(.top, 28).padding(.bottom, 16)
+        .frame(minWidth: 336, maxWidth: .infinity, minHeight: 362, maxHeight: .infinity)
+        .ignoresSafeArea()
         .background(AirBackground().ignoresSafeArea())
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.16))
     }
@@ -156,7 +157,7 @@ final class StatusWindow: NSWindowController, NSWindowDelegate {
     var onClose: (() -> Void)?
 
     init() {
-        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 388, height: 516),
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 336, height: 362),
                               styleMask: [.titled, .closable, .resizable, .fullSizeContentView], backing: .buffered, defer: false)
         super.init(window: window)
         window.title = "AirMic"
@@ -166,7 +167,7 @@ final class StatusWindow: NSWindowController, NSWindowDelegate {
         window.isReleasedWhenClosed = false
         window.isOpaque = false
         window.backgroundColor = .clear
-        window.contentMinSize = NSSize(width: 388, height: 516)
+        window.contentMinSize = NSSize(width: 336, height: 362)
         window.delegate = self
         window.standardWindowButton(.closeButton)?.toolTip = L("window.close_hint")
         window.contentView = NSHostingView(rootView: StatusView(model: model))

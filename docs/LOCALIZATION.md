@@ -1,6 +1,6 @@
 # Localization
 
-AirMic supports English (`en`) and Korean (`ko`). macOS selects the first supported preferred language, including regional variants such as `ko-KR`. When no preferred language is supported, the bundle's development language is English. A language change takes effect after normal quit and relaunch.
+AirMic supports English (`en`), Korean (`ko`), Simplified Chinese (`zh-Hans`), Japanese (`ja`), and Spanish (`es`). macOS selects the first supported preferred language, including regional variants such as `ko-KR`. When no preferred language is supported, the bundle's development language is English. A language change takes effect after normal quit and relaunch.
 
 ## Resources
 
@@ -10,8 +10,9 @@ Resources/
     Localizable.strings   # Menus, window, help, errors
     InfoPlist.strings     # System microphone permission purpose
   ko.lproj/
-    Localizable.strings
-    InfoPlist.strings
+  zh-Hans.lproj/
+  ja.lproj/
+  es.lproj/              # Each contains both .strings files
 ```
 
 `L("state.muted")` resolves stable keys through `NSLocalizedString`. Device names and errors supplied by macOS retain the system-provided text. CLI option names, help, version, and diagnostic field names remain in English for reproducible terminal use. The product name remains AirMic.

@@ -1,0 +1,2 @@
+/* System microphone permission prompt. */
+"NSMicrophoneUsageDescription" = "AirMic 需要访问麦克风，以检测 AirPods 控制操作并切换默认输入的静音状态。不会保存或传输音频。";

@@ -60,7 +60,7 @@ private func checkWindow(_ subject: StatusWindow) {
                 subject.render(muted: muted, input: "AirPods Pro", listening: muted == false, message: L(key))
                 root.layoutSubtreeIfNeeded()
                 require(subject.model.state.muted == muted && subject.model.state.message == L(key), "Presentation state did not update")
-                require(root.fittingSize.width <= 389 && root.fittingSize.height <= 560, "SwiftUI content exceeds compact window")
+                require(root.fittingSize.width <= 337 && root.fittingSize.height <= 420, "SwiftUI content exceeds compact window: \(root.fittingSize), \(key), \(String(describing: muted))")
                 require(!subject.model.state.title.isEmpty && !subject.model.state.action.isEmpty, "Missing state text")
             }
         }

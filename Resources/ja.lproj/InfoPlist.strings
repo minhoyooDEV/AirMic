@@ -1,0 +1,2 @@
+/* System microphone permission prompt. */
+"NSMicrophoneUsageDescription" = "AirMic は AirPods の操作検出とデフォルト入力のミュート切り替えのため、マイクにアクセスします。音声の保存・送信は行いません。";

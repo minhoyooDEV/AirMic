@@ -28,3 +28,9 @@ check_language '(ko)' ko
 check_language '(ko-KR)' ko
 check_language '(fr)' en
 check_language '(fr, ko)' ko
+
+check_language '(zh-Hans)' zh-Hans
+check_language '(zh-CN)' zh-Hans
+check_language '(ja)' ja
+check_language '(es)' es
+check_language '(es-MX)' es

@@ -13,26 +13,26 @@ AirMic is a small, experimental project maintained by [@minhoyooDEV](https://git
 
 - Prefer one behavior or coherent task per PR; link the motivating issue.
 - Require the Build workflow to pass on both configured architectures. The `main` branch requires both checks and an up-to-date PR branch. It also requires resolved review conversations and prohibits force pushes/deletion. Zero external approvals are required for this solo-maintainer project; administrators are not forced through protection.
-- For changes affecting audio, permission, or restoration, require the relevant manual checklist and record untested cases.
+- For changes affecting audio, permission, or restoration, record the relevant manual checklist and untested cases. Stable releases require hardware evidence for the release commit. Explicitly experimental prereleases may list pending hardware checks without claiming compatibility.
 - Inspect privacy, saved-state migration, error handling, and unsupported-device behavior. Keep runtime dependencies minimal.
 - Keep commit subjects meaningful. Squash noisy fixups or preserve a small, coherent series; never fabricate reviews or contributors.
 - Update documentation and `CHANGELOG.md`. Do not publish binaries or create a release just because CI passed.
 
 ## Release checklist
 
-- [ ] Select a commit with green CI and recorded manual hardware verification of that commit.
+- [ ] Select a commit with green CI. Record manual hardware verification, or explicitly identify pending cases for an experimental prerelease.
 - [ ] Review open regressions and document compatibility limits.
 - [ ] Update `CFBundleShortVersionString` and increment `CFBundleVersion`.
 - [ ] Move `Unreleased` entries to a dated version section.
 - [ ] Build from a clean checkout and verify bundle metadata/signature.
 - [ ] State architecture, minimum macOS, source commit, and signing/notarization status in release notes.
-- [ ] If distributing a binary, establish Developer ID signing/notarization and attach checksums; never imply an ad-hoc build is notarized.
+- [ ] Attach checksums. Stable distribution requires Developer ID signing/notarization. An ad-hoc experimental beta must clearly disclose its signing status and link to Apple’s first-launch guidance; do not disable Gatekeeper.
 - [ ] Tag the verified commit and publish notes linking the relevant issues/PRs. Mark experimental releases as prereleases.
 - [ ] Reproduce installation and removal from the actual published artifact.
 
-The current publication is source only. No tag or binary release is implied by the development bundle version.
+Beta binaries are universal DMGs for macOS 14+ and are explicitly marked as prereleases. The current beta uses ad-hoc signing, not Developer ID/notarization. A stable release is not implied by the development bundle version.
 
-`bash scripts/package.sh` creates a local architecture-specific DMG under ignored `build/packages/`. It includes an Applications shortcut and bilingual instructions, verifies the disk image, and writes a checksum. This is for local installation/testing; it does not sign with Developer ID, notarize, tag, or publish a release.
+`bash scripts/package.sh` creates a universal DMG under ignored `build/packages/`. It includes an Applications shortcut and bilingual instructions, verifies the disk image, and writes a checksum. Publishing the locally built DMG/checksum is a deliberate maintainer step after checking CI and matching the source commit; the script does not sign with Developer ID, notarize, tag, or publish.
 
 ## Workflow upkeep
 

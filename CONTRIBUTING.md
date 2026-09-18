@@ -23,6 +23,6 @@ For interface translations, follow [the localization guide](docs/LOCALIZATION.md
 
 Use imperative, descriptive subjects. A prefix such as `fix:`, `feat:`, `docs:`, or `ci:` is encouraged, not enforced. Keep unrelated changes separate; do not manufacture history or rewrite other contributors' commits. Link the issue with `Refs #123`, or `Closes #123` when the PR completes it.
 
-CI must pass before merge. Hardware-affecting changes also need recorded manual evidence. Maintainers may ask for a smaller change, keep an issue open for more evidence, or decline features that expand the scope. Passing CI alone does not establish audio correctness.
+CI must pass before merge. Hardware-affecting changes need a recorded manual checklist; explicitly label unavailable cases as untested. Stable releases require real-device evidence. Maintainers may ask for a smaller change, keep an issue open for more evidence, or decline features that expand the scope. Passing CI alone does not establish audio correctness.
 
 Treat contributors respectfully, focus feedback on the work, and avoid posting others' private information. A maintainer may remove abusive content. Contributions are made under the repository's [MIT license](LICENSE); no CLA is required.
