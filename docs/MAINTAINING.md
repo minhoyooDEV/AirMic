@@ -12,7 +12,7 @@ AirMic is a small, experimental project maintained by [@minhoyooDEV](https://git
 ## Review and merge
 
 - Prefer one behavior or coherent task per PR; link the motivating issue.
-- Require the Build workflow to pass on both configured architectures. Treat this as a maintainer rule unless branch protection is explicitly enabled.
+- Require the Build workflow to pass on both configured architectures. The `main` branch requires both checks and an up-to-date PR branch. It also requires resolved review conversations and prohibits force pushes/deletion. Zero external approvals are required for this solo-maintainer project; administrators are not forced through protection.
 - For changes affecting audio, permission, or restoration, require the relevant manual checklist and record untested cases.
 - Inspect privacy, saved-state migration, error handling, and unsupported-device behavior. Keep runtime dependencies minimal.
 - Keep commit subjects meaningful. Squash noisy fixups or preserve a small, coherent series; never fabricate reviews or contributors.
@@ -31,6 +31,8 @@ AirMic is a small, experimental project maintained by [@minhoyooDEV](https://git
 - [ ] Reproduce installation and removal from the actual published artifact.
 
 The current publication is source only. No tag or binary release is implied by the development bundle version.
+
+`bash scripts/package.sh` creates a local architecture-specific DMG under ignored `build/packages/`. It includes an Applications shortcut and bilingual instructions, verifies the disk image, and writes a checksum. This is for local installation/testing; it does not sign with Developer ID, notarize, tag, or publish a release.
 
 ## Workflow upkeep
 

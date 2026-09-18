@@ -14,7 +14,7 @@ Resources/
     InfoPlist.strings
 ```
 
-`L(@"state.muted")` resolves stable keys through `NSLocalizedString`. Device names and errors supplied by macOS retain the system-provided text. CLI option names, help, version, and diagnostic field names remain in English for reproducible terminal use. The product name remains AirMic.
+`L("state.muted")` resolves stable keys through `NSLocalizedString`. Device names and errors supplied by macOS retain the system-provided text. CLI option names, help, version, and diagnostic field names remain in English for reproducible terminal use. The product name remains AirMic.
 
 ## Add or update a language
 
@@ -28,14 +28,14 @@ The build automatically copies `.lproj` resources; no new runtime package or lan
 
 ## Preview without microphone access
 
-After `bash scripts/check.sh`, the test bundle can show a read-only preview of the production window:
+After `bash scripts/check.sh`, the test bundle can show an interactive sample preview of the production window:
 
 ```sh
 open -n build/LocalizationChecks.app --args \
   -AppleLanguages '(en)' -ExpectedLanguage en \
-  -SourcePath "$PWD/Source/main.m" -ShowPreview YES
+  -SourceDirectory "$PWD/Source" -ShowPreview YES -Appearance light
 ```
 
-Use `(ko)` and `ko` for Korean. This is a developer test bundle with disabled controls and sample state, not the working audio app. Quit the preview process when finished. It never starts microphone I/O or writes the app's mute snapshots. The actual system permission dialog is not opened by these tests; the localized purpose string is verified through bundle lookup.
+Use `(ko)` and `ko` for Korean. Use `-Appearance dark` for dark mode. The developer test bundle changes sample state when buttons are pressed; it is not the working audio app. Quit the preview process when finished. It never starts microphone I/O or writes the app's mute snapshots. The actual system permission dialog is not opened by these tests; the localized purpose string is verified through bundle lookup.
 
 For the real app, use **System Settings → General → Language & Region → Applications** to select its language, then relaunch. Do not reset system microphone permissions merely to review wording.

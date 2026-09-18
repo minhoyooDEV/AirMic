@@ -3,8 +3,8 @@
 AirMic is a single-process Cocoa app with no runtime packages or installed services.
 
 ```text
-AirPods mute event → AVAudioApplication handler → Controller.apply
-Window/menu toggle ────────────────────────────→ Controller.apply
+AirPods mute event → AVAudioApplication handler → MuteController.apply
+Window/menu toggle ────────────────────────────→ MuteController.apply
                                                      ↓
                                    current default input's hardware mute
                                                      ↓
@@ -16,13 +16,16 @@ Window/menu toggle ────────────────────�
 | Component | Responsibility |
 | --- | --- |
 | Core Audio helpers | Resolve the default input, device UID/name, and writable master input mute property |
-| `Controller` | Save original mute values, apply/read back changes, and retry restoration |
-| `App` | Request permission, own input I/O and event registration, render the window/menu |
+| `MuteController` | Save original mute values, apply/read back changes, and retry restoration |
+| `AirMicDelegate` | Request permission, own input I/O/event registration, and coordinate window/menu lifecycle |
+| `StatusModel` / `StatusView` | Present microphone state with SwiftUI and forward actions to the delegate |
 | CLI entry point | Read-only diagnostics, explicit hardware test, help/version without a GUI |
 
-All implementation lives in `Source/main.m`. Prefer separating a component when behavior or tests justify it, rather than introducing a framework for this small app.
+Production behavior lives in Swift files under `Source/`. `AudioDevices` provides a small injectable boundary for deterministic mute/restoration tests. It does not add a runtime dependency. `StatusWindow` hosts the SwiftUI view and coordinates native close/reopen behavior.
 
-Interface strings use stable keys through `Source/Localization.h` and native `NSBundle` resource lookup. `Resources/en.lproj` is the development language, with Korean in `ko.lproj`. The build copies language resources before signing. The status window uses a vertical stack with wrapping labels so translated messages can grow. See [localization](LOCALIZATION.md) for the resource and test contract.
+Interface strings use stable keys through `Source/Localization.swift` and native `NSBundle` resource lookup. `Resources/en.lproj` is the development language, with Korean in `ko.lproj`. The build copies language resources before signing. The SwiftUI status window uses wrapping text and a vertical layout. A mostly opaque, adaptive base and broad radial color washes provide a quiet frosted appearance. The underlying material is native SwiftUI Material with an NSVisualEffectView fallback for older build SDKs. Reduced transparency removes desktop bleed-through; reduced motion disables state animation. See [localization](LOCALIZATION.md) for the resource and test contract.
+
+While the status window is visible, the app uses regular activation so it appears in the Dock and app switcher. Closing the window restores accessory activation; the menu bar and audio lifecycle continue. Reopening shows the existing window. Window, app-menu, and status-menu quit actions share the normal termination/restoration path.
 
 ## Input and event lifecycle
 
@@ -40,6 +43,6 @@ Normal quit walks connected devices and restores saved values. Successful entrie
 
 ## SDK compatibility
 
-The runtime requires macOS 14+. A narrow Objective-C protocol and dynamic class/symbol resolution let older Command Line Tools compile against the public API. The compiler deployment target is 11.0 to support that SDK; `LSMinimumSystemVersion` is 14.0. This does not claim support for running the app on macOS 11–13.
+The runtime requires macOS 14+. Only `AudioApplicationBridge.h` uses a narrow Objective-C protocol and dynamic class/symbol resolution; these let older Command Line Tools compile against the public API. The compiler deployment target is 11.0 to support that SDK; `LSMinimumSystemVersion` is 14.0. This does not claim support for running the app on macOS 11–13.
 
 References: [Apple mute-state handler](https://developer.apple.com/documentation/avfaudio/avaudioapplication/setinputmutestatechangehandler(_:)), [WWDC23 audio session](https://developer.apple.com/videos/play/wwdc2023/10233/).

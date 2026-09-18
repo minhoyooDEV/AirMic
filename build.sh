@@ -16,10 +16,13 @@ cp -R Resources/. "$app/Contents/Resources/"
 for strings in "$app"/Contents/Resources/*.lproj/*.strings; do
   plutil -lint "$strings"
 done
-xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Wno-unused-parameter \
-  -mmacosx-version-min=11.0 \
-  -framework Cocoa -framework AVFoundation -framework CoreAudio -framework AudioToolbox \
-  Source/main.m -o "$app/Contents/MacOS/AirMic"
+xcrun swiftc -module-cache-path build/ModuleCache scripts/make-icon.swift -o build/make-icon
+build/make-icon build/AppIcon.iconset
+iconutil -c icns build/AppIcon.iconset -o "$app/Contents/Resources/AppIcon.icns"
+xcrun swiftc -parse-as-library -O -target "$(uname -m)-apple-macosx11.0" \
+  -module-cache-path build/ModuleCache -import-objc-header Source/AudioApplicationBridge.h \
+  -framework Cocoa -framework AVFoundation -framework CoreAudio -framework AudioToolbox -framework QuartzCore \
+  Source/*.swift -o "$app/Contents/MacOS/AirMic"
 cp Source/Info.plist "$app/Contents/Info.plist"
 codesign --force --sign - "$app"
 codesign --verify --strict "$app"

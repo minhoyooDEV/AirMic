@@ -10,7 +10,7 @@ A small native menu bar app that lets you mute and unmute your **default input m
 
 [한국어](README.ko.md)
 
-Built with Objective-C and Apple's system frameworks. No dependencies, audio drivers, background services, accounts, or network requests. The interface supports **English and Korean**, following your macOS language preferences.
+Built with Swift, SwiftUI, and Apple's system frameworks. No dependencies, audio drivers, background services, accounts, or network requests. The interface supports **English and Korean**, following your macOS language preferences.
 
 > **Experimental · source build.** Physical stem control has been confirmed on one Apple Silicon Mac with AirPods Pro. Automated builds do not prove hardware or conferencing-app compatibility. There is no signed, notarized download yet.
 
@@ -37,6 +37,8 @@ open build/AirMic.app
 
 The script builds for your Mac's architecture and applies a local ad-hoc signature. There is no notarized download. It prefers standalone Command Line Tools when installed; set `DEVELOPER_DIR` to use a particular Xcode installation. Building does not accept Apple's license agreements for you.
 
+To create a local Mac installer, run `bash scripts/package.sh`. The DMG appears in `build/packages/` and contains AirMic, an Applications shortcut, and English/Korean instructions. Open it and drag the app to Applications. This is still an ad-hoc-signed local build; the script does not publish a release or notarize it.
+
 ## Use
 
 1. Connect your AirPods and select the microphone you want to control as the Mac's default input.
@@ -45,6 +47,8 @@ The script builds for your Mac's architecture and applies a local ad-hoc signatu
 4. Press the stem using your configured mute/unmute gesture. The window and menu bar icon show the microphone's mute state.
 
 You can also toggle mute in the window or menu. Closing the window leaves the app in the menu bar. To stop it, choose **Quit and restore microphone**, which attempts to restore the original mute state of microphones changed by AirMic.
+
+The compact SwiftUI window uses a softly frosted, pale-blue surface with light/dark appearance, a clear microphone state, and a prominent mute button. Its largely opaque background keeps text readable over a busy desktop. Help and quit are available directly in the window. While the window is open, AirMic is available in the Dock and app switcher. Closing it returns to menu-bar-only operation; opening the app again shows the window. Command-Q uses the same restoration-aware quit path.
 
 ### Language
 
@@ -66,7 +70,7 @@ Want to add a language? See [localization guidance](docs/LOCALIZATION.md).
 ## Development checks
 
 ```sh
-# Build, verify the bundle/signature, and exercise the CLI without audio I/O:
+# Build, verify SwiftUI/localizations and restoration with fake devices; no audio I/O:
 bash scripts/check.sh
 
 # Read-only capability/state check:
@@ -103,12 +107,15 @@ defaults delete local.airmic.app
 
 ## Implementation
 
-- `Source/main.m` — menu/window, AirPods events, Core Audio mute control
+- `Source/AirMic.swift` — app/menu lifecycle, AirPods events, and CLI
+- `Source/GlassUI.swift` — SwiftUI window, state presentation, and native window lifecycle
+- `Source/AudioController.swift` — Core Audio adapter and testable mute/restoration state
+- `Source/Localization.swift` — native bundle localization helpers
 - `Source/Info.plist` — app identity and microphone permission description
 - `Resources/*.lproj` — interface and permission translations
 - `build.sh` — compile and locally sign the app
 
-The small Objective-C protocol declaration allows compilation with an older SDK while resolving the **public macOS 14 API** at runtime. The app bundle still requires macOS 14 or later.
+A small compatibility header (`Source/AudioApplicationBridge.h`) allows compilation with an older SDK while resolving the **public macOS 14 API** at runtime. The app bundle still requires macOS 14 or later.
 
 References: [Apple mute-handler API](https://developer.apple.com/documentation/avfaudio/avaudioapplication/setinputmutestatechangehandler(_:)), [WWDC23 AirPods audio session](https://developer.apple.com/videos/play/wwdc2023/10233/).
 
