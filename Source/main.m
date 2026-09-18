@@ -261,7 +261,24 @@ static OSStatus discardInput(void *context, AudioUnitRenderActionFlags *flags,
 }
 @end
 
+static void printUsage(FILE *stream) {
+    fprintf(stream, "Usage: AirMic [--help | --version | --check | --self-test]\n"
+            "  No arguments  Open the menu bar app and request microphone access.\n"
+            "  --help        Show this help without accessing audio hardware.\n"
+            "  --version     Show the bundle version without accessing audio hardware.\n"
+            "  --check       Read the default input's mute capability and state.\n"
+            "  --self-test   Flip real hardware mute, then attempt to restore it.\n"
+            "                Run only outside calls and recordings.\n");
+}
+
 int main(int argc,const char *argv[]) { @autoreleasepool {
+    if(argc>2) { printUsage(stderr); return 64; }
+    if(argc==2 && strcmp(argv[1],"--help")==0) { printUsage(stdout); return 0; }
+    if(argc==2 && strcmp(argv[1],"--version")==0) {
+        NSString *version=[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+        printf("AirMic %s\n",(version ?: @"unknown").UTF8String);
+        return version ? 0 : 1;
+    }
     if(argc>1 && strcmp(argv[1],"--check")==0) {
         BOOL mute=NO; AudioDeviceID d=inputDevice(); BOOL supported=readMute(d,&mute);
         printf("device=%s supported=%d muted=%d\n",deviceString(d,kAudioObjectPropertyName).UTF8String,supported,mute);
@@ -274,6 +291,7 @@ int main(int argc,const char *argv[]) { @autoreleasepool {
         printf("toggle=%d restore=%d verified=%d\n",changed,restored,verified);
         return changed&&restored&&verified?0:1;
     }
+    if(argc>1) { fprintf(stderr,"Unknown option: %s\n",argv[1]); printUsage(stderr); return 64; }
     NSApplication *app=[NSApplication sharedApplication];
     App *delegate=[App new]; app.delegate=delegate;
     [app setActivationPolicy:NSApplicationActivationPolicyAccessory]; [app run];
